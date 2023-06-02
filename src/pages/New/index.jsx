@@ -32,7 +32,7 @@ export function New() {
   }
 
   function handleRemoveLink(deleted) {
-    setLinks(prevState => prevState.filter(link => link !== deleted));
+    setLinks((prevState) => prevState.filter((link) => link !== deleted));
   }
 
   function handleAddTag() {
@@ -41,19 +41,35 @@ export function New() {
   }
 
   function handleRemoveTag(deleted) {
-    setTags(prevState => prevState.filter(tag => tag !== deleted));
+    setTags((prevState) => prevState.filter((tag) => tag !== deleted));
   }
 
   async function handleNewNote() {
-      await api.post("/notes", {
-        title,
-        description,
-        tags,
-        links
-      });
+    if (!title) {
+      return alert("Digite o título da nota.")
+    }
 
-      alert("Nota criada com sucesso!");
-      navigate("/");
+    if (newLink) {
+      return alert(
+        "Você deixou um link no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo o vazio."
+      );
+    }
+
+    if (newTag) {
+      return alert(
+        "Você deixou uma tag no campo para adicionar, mas não clicou em adicionar. Clique para adicionar ou deixe o campo o vazio."
+      );
+    }
+
+    await api.post("/notes", {
+      title,
+      description,
+      tags,
+      links,
+    });
+
+    alert("Nota criada com sucesso!");
+    navigate("/");
   }
 
   return (
@@ -67,26 +83,24 @@ export function New() {
             <Link to="/">voltar</Link>
           </header>
 
-          <Input 
-            placeholder="Titulo" 
+          <Input
+            placeholder="Titulo"
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          <Textarea 
+          <Textarea
             placeholder="Observações"
-            onChange={(e) => setDescription(e.target.value)} 
+            onChange={(e) => setDescription(e.target.value)}
           />
 
           <Section title="Links úteis">
-            {
-              links.map((link, index) => (
-                <NoteItem
-                  key={String(index)}
-                  value={link}
-                  onClick={() => handleRemoveLink(link)}
-                />
-              ))
-            }
+            {links.map((link, index) => (
+              <NoteItem
+                key={String(index)}
+                value={link}
+                onClick={() => handleRemoveLink(link)}
+              />
+            ))}
 
             <NoteItem
               isNew
@@ -99,31 +113,25 @@ export function New() {
 
           <Section title="Marcadores">
             <div className="tags">
-              {
-                tags.map((tag, index) => (
-                  <NoteItem 
-                    key={String(index)}
-                    value={tag} 
-                    onClick={() => handleRemoveTag(tag)}
-                  />
-                ))
-              }
+              {tags.map((tag, index) => (
+                <NoteItem
+                  key={String(index)}
+                  value={tag}
+                  onClick={() => handleRemoveTag(tag)}
+                />
+              ))}
 
-              <NoteItem 
-                isNew 
-                placeholder="Novo marcador" 
-                onChange={e => setNewTag(e.target.value)}
+              <NoteItem
+                isNew
+                placeholder="Novo marcador"
+                onChange={(e) => setNewTag(e.target.value)}
                 value={newTag}
                 onClick={handleAddTag}
               />
             </div>
           </Section>
 
-          <Button 
-            title="Salvar"
-            onClick={handleNewNote} 
-          />
-
+          <Button title="Salvar" onClick={handleNewNote} />
         </Form>
       </main>
     </Container>
