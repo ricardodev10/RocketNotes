@@ -23,7 +23,15 @@ export const Container = styled.div`
   > footer {
     width: 100%;
     display: flex;
-    gap: 6px;
     margin-top: 24px;
+
+    span {
+      font-size: 12px;
+      padding: 5px 14px;
+      border-radius: 5px;
+      color: ${({ theme }) => theme.COLORS.BACKGROUND_900};
+      background-color: ${({ theme }) => theme.COLORS.ORANGE};
+      margin-right: 6px;
+    }
   }
 `;
