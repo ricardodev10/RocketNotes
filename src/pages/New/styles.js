@@ -32,14 +32,10 @@ export const Form = styled.form`
     justify-content: space-between;
 
     margin-bottom: 36px;
-  }
 
-  h1 {
-    font-size: 36px;
-  }
-
-  button {
-    font-size: 20px;
-    color: ${({ theme }) => theme.COLORS.GRAY_100};
+    a {
+      font-size: 20px;
+      color: ${({ theme }) => theme.COLORS.GRAY_100};
+    }
   }
 `;
